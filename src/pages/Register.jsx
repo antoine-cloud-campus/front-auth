@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Form, Button, Container, Card, Row, Col, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const Register = () => {
 
@@ -12,6 +13,8 @@ const Register = () => {
   });
 
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -38,6 +41,7 @@ const Register = () => {
         throw new Error(errorData.message || "Une erreur est survenue lors de l'inscription.");
       }
 
+      navigate("/connexion");
     } catch (err) {
       setError(err.message);
     }

@@ -14,15 +14,30 @@ const LoginPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    // Don't forget to handle errors, both for yourself (dev) and for the client (via a Bootstrap Alert):
-    //   - Show an error if credentials are invalid
-    //   - Show a generic error for all other cases
-    // On success, redirect to the Pro Offers page
+    setError("");
+
+    try {
+      const response = await fetch(baseAPI + "/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Une erreur est survenue lors de l'inscription.");
+      }
+
+    } catch (err) {
+      setError(err.message);
+    }
     console.log("Login submitted:", formData);
   };
+
 
   return (
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
