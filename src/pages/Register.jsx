@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { Form, Button, Container, Card, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Card, Row, Col, Alert } from "react-bootstrap";
 
 const Register = () => {
+
+  const baseAPI = "https://offers-api.digistos.com/api"
+
   const [formData, setFormData] = useState({
     email: "",
     name: "",
     password: "",
   });
+
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -15,12 +20,28 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
-    // Don't forget to handle errors, both for yourself (dev) and for the client (via a Bootstrap Alert)
-    // Redirect to Login on success
-    console.log("Form submitted:", formData);
+    setError("");
+
+    try {
+      const response = await fetch(baseAPI + "/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Une erreur est survenue lors de l'inscription.");
+      }
+
+    } catch (err) {
+      setError(err.message);
+    }
+    console.log(formData)
   };
 
   return (
@@ -29,6 +50,7 @@ const Register = () => {
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card className="p-4 shadow-lg">
             <h2 className="text-center mb-4">Créer un compte</h2>
+            {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formEmail">
                 <Form.Label>Email</Form.Label>
