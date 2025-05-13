@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { Form, Button, Container, Card, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const LoginPage = () => {
+
+  
+  const baseAPI = "https://offers-api.digistos.com/api"
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -29,12 +38,13 @@ const LoginPage = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Une erreur est survenue lors de l'inscription.");
+        throw new Error(errorData.message || "Une erreur est survenue lors de la connexion.");
       }
 
     } catch (err) {
       setError(err.message);
     }
+    navigate('/offres/publiques')
     console.log("Login submitted:", formData);
   };
 
@@ -45,6 +55,7 @@ const LoginPage = () => {
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card className="p-4 shadow-lg">
             <h2 className="text-center mb-4">Se connecter</h2>
+            {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="loginEmail">
                 <Form.Label>Email</Form.Label>
