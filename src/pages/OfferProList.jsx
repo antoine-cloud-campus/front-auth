@@ -20,12 +20,12 @@ const OfferProList = () => {
           }
         );
 
-        const data = await response.json();
+        const formatedResponse = await response.json();
         if (!response.ok) {
-          throw { status: response.status, message: data.message };
+          throw { status: response.status, message: formatedResponse.message };
         }
 
-        setOffers(data);
+        setOffers(formatedResponse.data);
       } catch (err) {
         if (err.status === 401) {
           setError("Vous n'êtes pas autorisé à accéder aux offres (401).");

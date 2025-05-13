@@ -8,7 +8,7 @@ const OfferList = ({ offers }) => {
     <Container className="mt-4">
       <h2 className="mb-4">Liste des Produits</h2>
       <Row>
-        {offers.data.map((offer) => (
+        {offers.map((offer) => (
           <Col md={4} sm={6} xs={12} key={offer.id} className="mb-4">
             <Link to={`/offre/${offer.id}`} className="text-decoration-none">
               <Card>
