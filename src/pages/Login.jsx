@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Form, Button, Container, Card, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Card, Row, Col, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
 const LoginPage = () => {
 
-  
+
   const baseAPI = "https://offers-api.digistos.com/api"
 
   const [formData, setFormData] = useState({
@@ -25,7 +25,6 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
       const response = await fetch(baseAPI + "/auth/login", {
@@ -37,16 +36,24 @@ const LoginPage = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Une erreur est survenue lors de la connexion.");
+        if (response.status === 401) {
+          throw new Error("Identifiants invalides. Veuillez réessayer.");
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Une erreur est survenue lors de la connexion.");
+        }
       }
 
+      // Redirection après connexion réussie
+      navigate('/offres/professionnelles');
     } catch (err) {
       setError(err.message);
+      console.error("Erreur de connexion :", err.message);
     }
-    navigate('/offres/publiques')
+
     console.log("Login submitted:", formData);
   };
+
 
 
   return (

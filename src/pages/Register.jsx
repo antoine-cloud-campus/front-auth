@@ -39,11 +39,13 @@ const Register = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Une erreur est survenue lors de l'inscription.");
+      } else {
+        navigate("/connexion");
       }
 
-      navigate("/connexion");
     } catch (err) {
       setError(err.message);
+      console.log(err.message);
     }
     console.log(formData)
   };
