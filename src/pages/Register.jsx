@@ -30,6 +30,7 @@ const Register = () => {
       const response = await fetch(baseAPI + "/auth/register", {
         method: "POST",
         headers: {
+          'Accept': "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
