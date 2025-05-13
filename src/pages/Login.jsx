@@ -37,15 +37,15 @@ const LoginPage = () => {
 
       if (!response.ok) {
         if (response.status === 401) {
-          throw new Error("Identifiants invalides. Veuillez réessayer.");
+          throw new Error("Identifiants invalides. Veuillez réessayer. (401)");
         } else {
           const errorData = await response.json();
           throw new Error(errorData.message || "Une erreur est survenue lors de la connexion.");
         }
+      } else {
+        navigate('/offres/professionnelles');
       }
 
-      // Redirection après connexion réussie
-      navigate('/offres/professionnelles');
     } catch (err) {
       setError(err.message);
       console.error("Erreur de connexion :", err.message);
