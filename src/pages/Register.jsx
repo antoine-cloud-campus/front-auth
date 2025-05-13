@@ -25,7 +25,6 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
       const response = await fetch(baseAPI + "/auth/register", {
@@ -44,8 +43,8 @@ const Register = () => {
       }
 
     } catch (err) {
-      setError(err.message);
-      console.log(err.message);
+      setError("Une erreur est survenue lors de l'inscription.");
+      console.log("Erreur d'insctiption : " + err.message);
     }
     console.log(formData)
   };

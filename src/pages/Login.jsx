@@ -47,7 +47,7 @@ const LoginPage = () => {
       }
 
     } catch (err) {
-      setError(err.message);
+      setError("Une erreur est survenue lors de la connexion.");
       console.error("Erreur de connexion :", err.message);
     }
 
