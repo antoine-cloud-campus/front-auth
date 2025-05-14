@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 
 
 const Logout = () => {
@@ -11,11 +12,10 @@ const Logout = () => {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
         },
       });
-      localStorage.removeItem('auth');
-
       // (2) Suppression du token côté frontend
-
+      localStorage.removeItem('auth');
       // (3) Redirection vers la page de login
+      useNavigate('/')
     };
 
     handleLogout();
