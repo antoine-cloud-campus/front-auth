@@ -2,7 +2,6 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router";
 
 const OfferList = ({ offers }) => {
-  console.log(offers)
 
   return (
     <Container className="mt-4">
