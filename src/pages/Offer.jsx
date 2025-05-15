@@ -9,8 +9,10 @@ const Offer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
+  const token = useSelector((state) => state.auth.token);
+
   useEffect(() => {
-    const token = useSelector((state) => state.auth.token);
     const fetchOffer = async () => {
       try {
         const response = await fetch(

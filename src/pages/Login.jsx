@@ -38,16 +38,15 @@ const LoginPage = () => {
         },
         body: JSON.stringify(formData),
       });
+      const data = await response.json()
 
       if (!response.ok) {
         if (response.status === 401) {
           throw new Error("Identifiants invalides. Veuillez réessayer. (401)");
         } else {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Une erreur est survenue lors de la connexion.");
+          throw new Error(data.message || "Une erreur est survenue lors de la connexion.");
         }
       } else {
-        const data = await response.json()
         dispatch(
           loginSuccess({
             token: data.access_token,
