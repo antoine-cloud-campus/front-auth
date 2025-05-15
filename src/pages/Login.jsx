@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Form, Button, Container, Card, Row, Col, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../store/authSlice";
+
 
 const LoginPage = () => {
 
@@ -15,6 +18,7 @@ const LoginPage = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({
@@ -43,6 +47,13 @@ const LoginPage = () => {
           throw new Error(errorData.message || "Une erreur est survenue lors de la connexion.");
         }
       } else {
+        const data = await response.json()
+        dispatch(
+          loginSuccess({
+            token: data.access_token,
+            expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString(),
+          })
+        );
         navigate('/offres/professionnelles');
       }
 
