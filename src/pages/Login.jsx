@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 
 const LoginPage = () => {
 
-
   const baseAPI = "https://offers-api.digistos.com/api"
 
   const [formData, setFormData] = useState({
@@ -35,6 +34,7 @@ const LoginPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        credentials: "include", // permet au navigateur de recevoir et stocker le cookie HttpOnly
       });
 
       if (!response.ok) {
@@ -46,10 +46,8 @@ const LoginPage = () => {
         }
       } else {
         const data = await response.json();
-        localStorage.setItem("auth", JSON.stringify({
-          token: data.access_token,
-          // Calcule la date d’expiration en ISO à partir de l’heure actuelle et de expires_in
-          expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString() 
+        localStorage.setItem('auth', JSON.stringify({
+          expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString()
         }));
         navigate('/offres/professionnelles');
       }

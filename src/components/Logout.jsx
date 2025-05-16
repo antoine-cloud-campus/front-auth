@@ -13,10 +13,7 @@ const Logout = () => {
       // (1) Appel API pour notifier la déconnexion
       await fetch(baseAPI + '/auth/logout', {
         method: 'POST',
-        credentials: 'include',
-        headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
-        },
+        credentials: 'include'
       });
       // (2) Suppression du token côté frontend
       localStorage.removeItem('auth');

@@ -9,16 +9,14 @@ import { useEffect, useState } from "react";
 
 function Header() {
   const location = useLocation();
-  const getValidToken = () => {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    const isValid = auth && new Date(auth.expiresAt) > new Date();
-    return isValid ? auth.token : null;
-  };
-
-  const [token, setToken] = useState(getValidToken);
-
+  const [isConnected, setIsConnected] = useState(false);
   useEffect(() => {
-    setToken(getValidToken());
+    const authData = JSON.parse(localStorage.getItem("auth"));
+    if (authData && new Date(authData.expiresAt) > new Date()) {
+      setIsConnected(true);
+    } else {
+      setIsConnected(false)
+    }
   }, [location]);
 
   return (
@@ -28,7 +26,7 @@ function Header() {
           <Nav.Link as={NavLink} to="/">Accueil</Nav.Link>
           <Nav.Link as={NavLink} to="/offres/publiques">Offres Publiques</Nav.Link>
 
-          {token
+          {isConnected
             ?
             <>
               <Nav.Link as={NavLink} to="/offres/professionnelles">Offres Professionnelles</Nav.Link>

@@ -13,10 +13,9 @@ const OfferProList = () => {
         const response = await fetch(
           "https://offers-api.digistos.com/api/offers/pro",
           {
+            credentials: 'include',
             headers: {
               Accept: "application/json",
-              // Add Authorization token
-              Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
             },
           }
         );
